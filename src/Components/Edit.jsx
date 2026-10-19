@@ -9,6 +9,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select'
+import { FaXmark } from 'react-icons/fa6';
+
 
 
 const style = {
@@ -17,6 +19,8 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
+  maxHeight:'80vh',
+  overflowY:'auto',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -66,6 +70,46 @@ function Edit() {
                 </FormControl>
             </div>
         </div>
+        <div>
+                  <h3>Contact Details</h3>
+                  <div className="row p-3">
+        
+                    <TextField id="standard-basic-email" label="Email" variant="standard" />
+                    <TextField id="standard-basic-contact" label="Contact Number" variant="standard" />
+                    <TextField id="standard-basic-linkedin" label="Linedin Link" variant="standard" />
+                    <TextField id="standard-basic-github" label="Github Link" variant="standard" />
+        
+                  </div>
+                </div>
+                  <div>
+                          <h3>Educational Details</h3>
+                          <div className="row p-3">
+                            <TextField id="standard-basic-degree" label="Bachelor's degree" variant="standard" />
+                            <TextField id="standard-basic-college" label="University/College Name" variant="standard" />
+                            <TextField id="standard-basic-graduation" label="Year of graduation" variant="standard" />
+                          </div>
+                        </div>
+                        {/* Skills */}
+                       <div className='mt-3'>
+                            <div className='d-flex p-3'>
+                                <input type="text" className='form-control'placeholder='Add skill' />
+                                <button className='btn border'>Add</button>
+    
+                            </div>
+                            <h5>Added Skills :</h5>
+                            <div className='p-3 d-flex justify-content-between flex-wrap'>
+                                <Button variant='contained'  > Skill <FaXmark className='mx-3'/></Button>
+                            </div>
+                       </div>
+                       {/* summary */}
+                       <div className='mt-3'>
+                        <h3>Summary </h3>
+                        <div className='row p-3'>
+                            <TextField id='summary' label='summary' variant='standard'></TextField>
+                        </div>
+                       </div>
+                       {/* update button */}
+                       <button className='btn btn-primary mt-3'> Update CV</button>
     </Typography>
 </Box>
 </Modal>
