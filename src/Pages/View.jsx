@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { FaFileDownload, FaBackward } from "react-icons/fa";
 import Edit from '../Components/Edit';
-import { Link } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import { IoDocumentText } from "react-icons/io5";
 import { IoMdRefresh } from "react-icons/io";
 import Preview from '../Components/Preview';
+import { viewResumeApi } from '../service/apiService';
 
 function View() {
+
+const [resume,setResume]=useState()
+
+const {id}=useParams()
+console.log(id);
+
+useEffect(()=>{
+    getResumeDetails()
+},[])
+
+
+
+const getResumeDetails=async ()=>{
+    const response =await viewResumeApi(id)
+    if(response.status===200){
+        setResume(response.data)
+    }
+}
+
+
     return (
         <div className='container my-5'>
             <div className="row">
@@ -34,8 +55,7 @@ function View() {
                         </Link>
                     </div>
                     <div className='p-5'>
-                        <Preview />
-                    </div>
+<Preview resumeDetails={resume} />                    </div>
                 </div>
                 <div className="col-lg-2"></div>
             </div>

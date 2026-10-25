@@ -8,7 +8,8 @@ const axiosService=async (httpMethod,url,reqBody)=>{
         data:reqBody
         
     })
-      }catch(error){
+return response
+      } catch(error) {
         throw error
       }       
 }

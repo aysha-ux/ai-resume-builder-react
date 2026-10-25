@@ -12,8 +12,7 @@ function Preview({resumeDetails}) {
             <p className='fs-5 lh-1'>Location:{resumeDetails?.location}</p>
             <Divider className='bg-dark mb-3' />
             <h2>Professional Summary</h2>
-            <p>Summary</p>
-            <Divider className='bg-dark mb-3' />
+<p>{resumeDetails?.summary}</p>            <Divider className='bg-dark mb-3' />
             <h2>Technical Skills</h2>
          {/* duplicate according to skill number */}
 {
