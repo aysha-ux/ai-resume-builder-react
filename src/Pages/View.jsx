@@ -42,13 +42,13 @@ const getResumeDetails=async ()=>{
                         {/* Edit */}
                         <Edit />
                         {/* All resumes */}
-                        <Link style={{ color: '#421c03' }} to={'/all-resumes'} className='btn mx-2'>
+                        {/* <Link style={{ color: '#421c03' }} to={'/all-resumes'} className='btn mx-2'>
                             <IoDocumentText /> All Resumes
-                        </Link>
+                        </Link> */}
                         {/* Download History */}
-                        <Link style={{ color: '#421c03' }} to={'/downloads'} className='btn mx-2'>
+                        {/* <Link style={{ color: '#421c03' }} to={'/downloads'} className='btn mx-2'>
                             <IoMdRefresh /> Download History
-                        </Link>
+                        </Link> */}
                         {/* Back */}
                         <Link style={{ color: '#421c03' }} to={'/resume-details'} className='btn mx-2'>
                             <FaBackward /> Previous

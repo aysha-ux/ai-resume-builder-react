@@ -13,35 +13,40 @@ function Header() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-<AppBar position="static" sx={{ backgroundColor: '#574211' }}>                <Toolbar>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
+            <AppBar position="static" sx={{ backgroundColor: '#574211' }}>                <Toolbar>
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                >
+                    {/* Navbar Icon */}
+                    <img
+                        width={"40px"}
+                        src="https://static.vecteezy.com/system/resources/thumbnails/050/700/033/small_2x/resume-flat-business-management-document-icon-illustration-png.png"
+                        alt="Icon"
+                    />
+                </IconButton>
+
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Link
+                        to={'/'}
+                        className="text-light text-decoration-none"
                     >
-                        {/* Navbar Icon */}
-                        <img
-                            width={"40px"}
-                            src="https://static.vecteezy.com/system/resources/thumbnails/050/700/033/small_2x/resume-flat-business-management-document-icon-illustration-png.png"
-                            alt="Icon"
-                        />
-                    </IconButton>
+                        AI rBUILDER
+                    </Link>
+                </Typography>
 
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <Link
-                            to={'/'}
-                            className="text-light text-decoration-none"
-                        >
-                            AI rBUILDER
-                        </Link>
-                    </Typography>
+                <Link  to={'/all-resumes'} className='text-light text-decoration-none'>
+                     All Resumes
+                </Link>
+                <Link to={'/downloads'} className='text-light text-decoration-none mx-4'> Download History</Link>
 
-                    <Tooltip title={title}>
-                        <Button color="inherit">ABOUT US</Button>
-                    </Tooltip>
-                </Toolbar>
+                <Tooltip title={title}>
+                    <Button color="inherit">ABOUT US</Button>
+                </Tooltip>
+            </Toolbar>
             </AppBar>
         </Box>
     )
