@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FaSearch, FaTrash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { deleteAllResumeApi, getAllResumeApi } from '../service/apiService'
@@ -8,20 +8,35 @@ function Saved() {
 
 const [allResumes,setAllResumes]=useState([])
 const [searchKey,setSearchKey]=useState("")
+const [dummyAllResumes,setDummyAllResumes]=useState([])
+
 console.log(searchKey);
+
 
 useEffect(()=>{
   searchKey==""? getAllResumes():searchCandidate()
+},[])
+
+const searchInput=useMemo(()=>{
+  setAllResumes(dummyAllResumes.filter(item=>item.job.toLowerCase().includes(searchKey.toLowerCase())))
+
 },[searchKey])
 
-const searchCandidate=()=>{
-setAllResumes(allResumes.filter(item=>item.job.toLowerCase().includes(searchKey.toLowerCase())))
-}
+//or 
+// useEffect(()=>{
+//   searchKey==""? getAllResumes():searchCandidate()
+// },[searchKey])
+
+// const searchCandidate=()=>{
+// setAllResumes(dummyAllResumes.filter(item=>item.job.toLowerCase().includes(searchKey.toLowerCase())))
+// }
 
 const getAllResumes = async () => {
     const response = await getAllResumeApi()
     if (response.status === 200) {
         setAllResumes(response.data)
+                setDummyAllResumes(response.data)
+
     }
 }
 

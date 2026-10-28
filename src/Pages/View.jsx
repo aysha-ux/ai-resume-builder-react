@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaFileDownload, FaBackward } from "react-icons/fa";
 import Edit from '../Components/Edit';
-import { Link,useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { IoDocumentText } from "react-icons/io5";
 import { IoMdRefresh } from "react-icons/io";
 import Preview from '../Components/Preview';
@@ -9,23 +9,23 @@ import { viewResumeApi } from '../service/apiService';
 
 function View() {
 
-const [resume,setResume]=useState()
+    const [resume, setResume] = useState()
 
-const {id}=useParams()
-console.log(id);
+    const { id } = useParams()
+    console.log(id);
 
-useEffect(()=>{
-    getResumeDetails()
-},[])
+    useEffect(() => {
+        getResumeDetails()
+    }, [])
 
 
 
-const getResumeDetails=async ()=>{
-    const response =await viewResumeApi(id)
-    if(response.status===200){
-        setResume(response.data)
+    const getResumeDetails = async () => {
+        const response = await viewResumeApi(id)
+        if (response.status === 200) {
+            setResume(response.data)
+        }
     }
-}
 
 
     return (
@@ -40,7 +40,7 @@ const getResumeDetails=async ()=>{
                             <FaFileDownload /> Download CV
                         </button>
                         {/* Edit */}
-                        <Edit />
+                        <Edit resumeDetails={resume}  setResumeDetails={setResume}/>
                         {/* All resumes */}
                         {/* <Link style={{ color: '#421c03' }} to={'/all-resumes'} className='btn mx-2'>
                             <IoDocumentText /> All Resumes
@@ -55,7 +55,8 @@ const getResumeDetails=async ()=>{
                         </Link>
                     </div>
                     <div className='p-5'>
-<Preview resumeDetails={resume} />                    </div>
+                        <Preview resumeDetails={resume} />     
+                   </div>
                 </div>
                 <div className="col-lg-2"></div>
             </div>
