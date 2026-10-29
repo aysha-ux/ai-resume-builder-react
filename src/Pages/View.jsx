@@ -5,9 +5,10 @@ import { Link, useParams } from 'react-router-dom';
 import { IoDocumentText } from "react-icons/io5";
 import { IoMdRefresh } from "react-icons/io";
 import Preview from '../Components/Preview';
-import { viewResumeApi } from '../service/apiService';
+import { viewResumeApi,downloadResumeApi  } from '../service/apiService';
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
+
 
 
 
@@ -31,17 +32,50 @@ function View() {
         }
     }
 
-    
-const generatePDF= async ()=>{
-  const previewTag=previewRef.current
-  const canvas= await html2canvas(previewTag)
-  const pdf=new jsPDF()
-  const imageWidth=pdf.internal.pageSize.getWidth()
-  const imageHeight=pdf.internal.pageSize.getHeight()
-  pdf.addImage(canvas,"PNG",0,0,imageWidth,imageHeight)
-  pdf.save("resume.pdf")
+    // t5cyugkp
+const downloadCV = async () => {
+    const previewTag = previewRef.current
+    const canvas = await html2canvas(previewTag)
+
+    canvas.toBlob(async (imgFile) => {
+        // create formdata to send file via API
+        const formData = new FormData()
+        formData.append("file", imgFile)
+        formData.append("upload_preset", "myresume")
+
+        const result = await fetch("https://api.cloudinary.com/v1_1/t5cyugkp/image/upload", {
+            method: "POST",
+            body: formData
+        })
+
+        const serverData = await result.json()
+        const url = serverData.secure_url
+        generatePDF(url)
+
+    })
 }
 
+
+
+
+    
+const generatePDF = async (resumeImg) => {
+    const pdf = new jsPDF()
+    const imageWidth = pdf.internal.pageSize.getWidth()
+    const imageHeight = pdf.internal.pageSize.getHeight()
+    pdf.addImage(resumeImg, "PNG", 0, 0, imageWidth, imageHeight)
+
+    const today=new Date()
+const timeStamp=`${today.toLocaleDateString()},${today.toLocaleTimeString()}` 
+console.log(timeStamp);
+
+const result = await downloadResumeApi({timeStamp, resumeImg, resumeId: resume.id, jobRole: resume.job})
+
+if (result.status === 201) {
+    // download CV
+    pdf.save(`${resume.fullname} CV.pdf`)
+}
+}
     return (
         <div className='container my-5'>
             <div className="row">
@@ -50,7 +84,7 @@ const generatePDF= async ()=>{
                     {/* Navigation icons */}
                     <div className='d-flex justify-content-center align-items-center'>
                         {/* Download */}
-                        <button onClick={generatePDF} style={{ color: '#421c03' }} className='btn mx-2'>
+                        <button onClick={downloadCV} style={{ color: '#421c03' }} className='btn mx-2'>
                             <FaFileDownload /> Download CV
                         </button>
                         {/* Edit */}

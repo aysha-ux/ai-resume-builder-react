@@ -1,29 +1,52 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { getAllDownloadResumeApi } from '../service/apiService'
 
 
 function Download() {
-  return (
+useEffect(()=>{
+  getAllDownloads()
+},[])
+
+ const [downloadList,setDownloadList] =useState([])
+ const getAllDownloads=async ()=>{
+  const result=await getAllDownloadResumeApi()
+    setDownloadList(result.data)
+  
+ }
+ return (
     <div className='container my-5'>
-      <div className='d-flex justify-content-between align-tems-center '>
-        <h3>Downloaded Resume History</h3>
-        <Link to={'/resume-details'}> <FaArrowLeft/> Back</Link>
-
-      </div>
-      <div className='row my-5'>
-      {/* duplicate the row according to resume count */}
-      <div className='col-lg-4'>
-        <div style={{height:'350px'}} className='rounded shadow p-3'>
-          <h6>Review at:Time stamp</h6>
-          <div className='mt-4 text-center'>
-            <Link to={'/resume/:id'} >  <img className='w-50' src="https://tse4.mm.bing.net/th/id/OIP.zsuU8XswcDF8MpJFxaX5lQHaKa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="resume-image" /></Link>
-          </div>
+        <div className='d-flex justify-content-between align-items-center'>
+            <h1>Downloaded Resume History</h1>
+            <Link to={'/resume-details'} ><FaArrowLeft /> Back</Link>
         </div>
-      </div>
-    </div>
-    </div>
-  )
-}
 
+        <div className='row my-5'>
+            {/* Duplicate the row according to the resume count */}
+            {
+                downloadList?.length > 0 ?
+                    downloadList?.map(resume => (
+                        <div className='col-lg-4'>
+                            <div style={{ height: '350px' }} className='rounded shadow p-3'>
+                                <h6>Review at : {resume?.timeStamp}</h6>
+                                <div className='mt-4 text-center'>
+                                    <Link to={`/resume/${resume?.resumeId}`}>
+                                        <img
+                                            className='w-100' style={{height:"300px"}}
+                                            src={resume?.resumeImg}
+                                            alt="resume image"
+                                        />
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                    :
+                    <div>No resumes downloaded yet</div>
+            }
+        </div>
+    </div>
+)
+  }
 export default Download
