@@ -11,9 +11,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select'
 import { FaXmark } from 'react-icons/fa6';
 import jobRole from '../assets/jobRole.json'
-
-
-
+import { editAllResumeApi } from '../service/apiService';
+import { toast } from 'react-toastify';
 
 
 const style = {
@@ -51,6 +50,27 @@ const addSkill = (skill) => {
         skillRef.current.value = ""
     } else {
         toast.warning("Please enter a valid input!!!")
+    }
+}
+
+
+const handleEditResume = async () => {
+    // make api call to update resume whenever the update button clicks
+    const { fullname, location, job, phone, email, github, linkedin, degree, college, year, skills, summary } = resumeDetails
+    if (fullname && location && job && phone && email && github && linkedin && degree && college && year && skills.length > 0 && summary) {
+        // make api call
+      const response = await  editAllResumeApi(resumeDetails.id,resumeDetails)
+      console.log(response);
+      if(response.status===200){
+        toast.success("resume updated successfully")
+setTimeout(()=>{
+        handleClose()
+
+},2500)
+      }
+      
+    } else {
+     toast.warning("Please fill the form completely!!!")
     }
 }
 
@@ -140,7 +160,7 @@ const addSkill = (skill) => {
                         </div>
                        </div>
                        {/* update button */}
-                       <button className='btn btn-primary mt-3'> Update CV</button>
+                       <button onClick={handleEditResume} className='btn btn-primary mt-3'> Update CV</button>
     </Typography>
 </Box>
 </Modal>
