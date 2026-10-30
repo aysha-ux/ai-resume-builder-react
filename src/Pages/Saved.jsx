@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FaSearch, FaTrash } from 'react-icons/fa'
+import { FaBackward, FaForward, FaSearch, FaTrash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { deleteAllResumeApi, getAllResumeApi } from '../service/apiService'
 
@@ -10,11 +10,16 @@ const [allResumes,setAllResumes]=useState([])
 const [searchKey,setSearchKey]=useState("")
 const [dummyAllResumes,setDummyAllResumes]=useState([])
 
-console.log(searchKey);
+const [currentPage,setCurrentPage]=useState(1)
+const rowPerPage=4
+const lastIndexofCurrentPage=currentPage *rowPerPage
+const firstIndexofCurrentPage=lastIndexofCurrentPage-rowPerPage
+const currentResumes=allResumes.slice(firstIndexofCurrentPage,lastIndexofCurrentPage)
+const totalPages=Math.ceil(allResumes.length/rowPerPage)
 
 
 useEffect(()=>{
-  searchKey==""? getAllResumes():searchCandidate()
+  getAllResumes()
 },[])
 
 const searchInput=useMemo(()=>{
@@ -49,15 +54,16 @@ const removeResume = async (id) => {
     }
 }
 
-  return (
+return (
     <div className='container d-flex justify-content-center align-items-center my-5 flex-column'>
-      <h1>All Saved Resumes</h1>
-<div className='d-flex justify-content-center align-items-center w-50 mt-3'>
-        <input onChange={(e)=>setSearchKey(e.target.value)} type="text" placeholder='search candidate by their job name' className='form-control'  /> 
-        <FaSearch style={{marginLeft:"-30px"}}/>
-  
-</div>   
-   <table className="table table-hover table-striped my-5">
+        <h1>All Saved Resumes</h1>
+
+        <div className='d-flex justify-content-center align-items-center w-50 mt-3'>
+            <input onChange={(e) => setSearchKey(e.target.value)} type="text" placeholder='Search candidate by their job name' className='form-control' />
+            <FaSearch style={{ marginLeft: "-30px" }} />
+        </div>
+
+        <table className="table table-hover table-striped my-5">
         <thead>
           <tr>
             <th>#</th>
@@ -68,9 +74,9 @@ const removeResume = async (id) => {
         </thead>
    <tbody>
     {
-        allResumes?.length > 0 ?
+        currentResumes?.length > 0 ?
 
-            allResumes?.map((resume, index) => (
+            currentResumes?.map((resume, index) => (
                 <tr key={resume?.id}>
                     <td>{index + 1}</td>
                     <td><Link to={`/resume/${resume.id}`}>{resume?.fullname.toUpperCase()}</Link></td>
@@ -85,8 +91,20 @@ const removeResume = async (id) => {
     }
 </tbody>
       </table>
-    </div>
-  )
-}
 
+        <div className='d-flex align-items-center'>
+            <button className='btn' onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+                <FaBackward />
+            </button>
+
+            {currentPage} of {totalPages}
+
+            <button className='btn' onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages || totalPages === 0}>
+                <FaForward />
+            </button>
+        </div>
+    </div>
+)
+   }
 export default Saved
+
